@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Request Pickup — Tackett Brothers Hauling</title>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <header class="header"><h1>Request a Pickup</h1></header>
+  <section class="hero">
+    <form id="pickupForm">
+      <label>Service Type:</label>
+      <select id="serviceType"><option value="">-- Select --</option><option value="scrap">Scrap</option><option value="pallets">Pallets</option></select>
+      <label>Location:</label><input type="text" id="location">
+      <button type="button" id="locateBtn">Use My Location</button>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="confirmation" style="display:none;">✔ Request Sent</div>
+  </section>
+<script>
+document.getElementById("locateBtn").addEventListener("click",()=>{
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(async pos=>{
+      const url="https://nominatim.openstreetmap.org/reverse?format=json&lat="+pos.coords.latitude+"&lon="+pos.coords.longitude;
+      const res=await fetch(url);const data=await res.json();
+      document.getElementById("location").value=data.display_name||pos.coords.latitude+","+pos.coords.longitude;
+    });
+  }
+});
+document.getElementById("pickupForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const payload={serviceType:document.getElementById("serviceType").value,location:document.getElementById("location").value};
+  const res=await fetch("/.netlify/functions/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  if(res.ok){document.getElementById("confirmation").style.display="block";}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿{
+  "name": "tackett-web",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": { "twilio": "^4.22.0" },
+  "engines": { "node": "16.x" }
+}
