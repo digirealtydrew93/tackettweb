@@ -1,0 +1,6 @@
+﻿:root { --blue:#1E3A8A; --white:#FFFFFF; --black:#000000; }
+body{font-family:'Montserrat',Segoe UI,Roboto,Arial,sans-serif;background:var(--white);color:#222;margin:0}
+.container{max-width:960px;margin:0 auto;padding:0 20px}
+.header{background:var(--blue);color:var(--white);padding:24px 0;text-align:center}
+.hero{padding:60px 0;text-align:center;background:#f4f6f8}
+.btn{background:var(--blue);color:var(--white);padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700}
