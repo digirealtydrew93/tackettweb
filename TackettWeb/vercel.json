@@ -1,9 +1,4 @@
 {
   "buildCommand": "echo 'Static site'",
-  "outputDirectory": "site",
-  "functions": {
-    "functions/**/*.js": {
-      "runtime": "nodejs@22"
-    }
-  }
+  "outputDirectory": "site"
 }
