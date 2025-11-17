@@ -1,7 +1,29 @@
-﻿{
+{
   "name": "tackett-web",
   "version": "1.0.0",
   "private": true,
-  "dependencies": { "twilio": "^4.22.0" },
-  "engines": { "node": "16.x" }
+  "dependencies": {
+    "multiparty": "^4.2.3",
+    "aws-sdk": "^2.1600.0"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "description": "Includes landing page, pickup form, Twilio SMS function, Netlify config. Deploy: push to GitHub, connect to Netlify, set env vars, run netlify dev.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digirealtydrew93/tackettweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/digirealtydrew93/tackettweb/issues"
+  },
+  "homepage": "https://github.com/digirealtydrew93/tackettweb#readme"
 }
