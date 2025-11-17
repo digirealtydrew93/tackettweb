@@ -7,7 +7,7 @@
     "aws-sdk": "^2.1600.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "description": "Includes landing page, pickup form, Twilio SMS function, Netlify config. Deploy: push to GitHub, connect to Netlify, set env vars, run netlify dev.",
   "main": "index.js",
