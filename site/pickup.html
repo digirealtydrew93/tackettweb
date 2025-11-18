@@ -6,52 +6,7 @@
   <title>Request Pickup — Tackett Brothers Hauling</title>
   <meta name="description" content="Request a pallet or scrap removal pickup in Columbus, Ohio. Fast, same-day service available. Submit your request now and we'll confirm immediately.">
   <meta name="keywords" content="request pallet pickup, scrap removal Columbus, same-day hauling">
-  <link rel="stylesheet" href="assets/css/site.css?v=3">
-  <style>
-    .autocomplete-list {
-      position: absolute;
-      border: 1px solid #ccc;
-      border-top: none;
-      list-style: none;
-      max-height: 250px;
-      overflow-y: auto;
-      display: none;
-      width: 100%;
-      background: white;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .autocomplete-list.active {
-      display: block;
-    }
-    .autocomplete-list li {
-      padding: 12px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 14px;
-    }
-    .autocomplete-list li:hover {
-      background-color: #f5f5f5;
-    }
-    .autocomplete-list li:last-child {
-      border-bottom: none;
-    }
-    .location-input-wrapper {
-      position: relative;
-    }
-    .location-input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    .location-input:focus {
-      outline: none;
-      border-color: #4CAF50;
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/site.css?v=4">
 </head>
 <body>
   <header class="header">
@@ -78,7 +33,22 @@
       
       <form id="pickupForm" class="form">
         <div class="form-group">
-          <label for="serviceType"><strong>1. What do you need picked up? *</strong></label>
+          <label for="name"><strong>Your Name *</strong></label>
+          <input type="text" id="name" name="name" required placeholder="John Smith">
+        </div>
+
+        <div class="form-group">
+          <label for="phone"><strong>Your Phone *</strong></label>
+          <input type="tel" id="phone" name="phone" required placeholder="(614) 555-1234">
+        </div>
+
+        <div class="form-group">
+          <label for="email"><strong>Your Email</strong></label>
+          <input type="email" id="email" name="email" placeholder="john@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="serviceType"><strong>What do you need picked up? *</strong></label>
           <select id="serviceType" name="serviceType" required>
             <option value="">-- Select Service --</option>
             <option value="pallets">📦 Pallets</option>
@@ -87,53 +57,33 @@
           <small>Select the main item you need removed</small>
         </div>
 
-        <!-- Pallet options -->
         <div id="palletOptions" style="display:none;" class="form-group">
-          <label for="palletSize">What size pallets?</label>
+          <label for="palletSize">Pallet Size</label>
           <select id="palletSize" name="palletSize">
-            <option value="">-- Select Pallet Size --</option>
+            <option value="">-- Select Size --</option>
             <option value="48x40">48x40 (Standard)</option>
             <option value="48x48">48x48</option>
             <option value="9-block">9 Block</option>
             <option value="misc">Mixed Sizes</option>
           </select>
           
-          <label for="palletQty">How many pallets?</label>
-          <input type="number" id="palletQty" name="palletQty" min="1" placeholder="Enter quantity" aria-label="Number of pallets">
+          <label for="palletQty" style="margin-top:10px;">How many pallets?</label>
+          <input type="number" id="palletQty" name="palletQty" min="1" placeholder="e.g. 5">
         </div>
 
-        <!-- Scrap options -->
         <div id="scrapOptions" style="display:none;" class="form-group">
-          <label for="scrapType">What type of scrap?</label>
-          <input type="text" id="scrapType" name="scrapType" placeholder="e.g. Steel, Aluminum, Computer parts, Mixed" aria-label="Type of scrap material">
+          <label for="scrapType">Type of Scrap</label>
+          <input type="text" id="scrapType" name="scrapType" placeholder="e.g. Steel, Aluminum, Computer parts">
         </div>
 
         <div class="form-group">
-          <label for="location"><strong>2. Where is it located? *</strong></label>
-          <div class="location-input-wrapper">
-            <input 
-              type="text" 
-              id="location" 
-              name="location" 
-              placeholder="Start typing your address..." 
-              required
-              autocomplete="off"
-              aria-label="Pickup location">
-            <ul id="locationSuggestions" class="autocomplete-list" role="listbox"></ul>
-          </div>
-          <small>Click a suggestion or type your full address</small>
+          <label for="location"><strong>Location *</strong></label>
+          <input type="text" id="location" name="location" required placeholder="123 Main St, Columbus, OH">
         </div>
 
         <div class="form-group">
-          <label for="pickupTime">3. When do you prefer pickup?</label>
-          <input type="datetime-local" id="pickupTime" name="pickupTime" aria-label="Preferred pickup time">
-          <small>Leave blank for us to contact you about timing</small>
-        </div>
-
-        <div class="form-group">
-          <label for="notes">Any special instructions?</label>
-          <textarea id="notes" name="notes" placeholder="e.g. Pallets are behind the building, or items are heavy" aria-label="Special instructions"></textarea>
-          <small>Help us prepare for the pickup</small>
+          <label for="details">Additional Details</label>
+          <textarea id="details" name="details" placeholder="Any special instructions..."></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary btn-large">Submit Pickup Request</button>
@@ -259,7 +209,6 @@
           '/functions/submit'
         ];
         
-        let lastError;
         for (const endpoint of endpoints) {
           try {
             const res = await fetch(endpoint, {
@@ -271,14 +220,12 @@
             if (res.ok) {
               document.getElementById("confirmation").style.display = "block";
               form.reset();
-              suggestionsList.classList.remove("active");
               setTimeout(() => {
                 document.getElementById("confirmation").style.display = "none";
               }, 5000);
               return;
             }
           } catch (err) {
-            lastError = err;
             continue;
           }
         }
