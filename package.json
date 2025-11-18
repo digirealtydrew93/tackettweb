@@ -21,7 +21,12 @@
     "auto-deploy": "node auto-deploy.js start",
     "health": "node auto-deploy.js health",
     "metrics": "node auto-deploy.js metrics",
-    "deploy-config": "node auto-deploy.js config"
+    "deploy-config": "node auto-deploy.js config",
+    "deploy:next": "node smart-deploy.js next",
+    "deploy:status": "node smart-deploy.js status",
+    "deploy:mark": "node smart-deploy.js update",
+    "deploy:schedule": "node smart-deploy.js schedule",
+    "deploy:reset": "node smart-deploy.js reset"
   },
   "repository": {
     "type": "git",

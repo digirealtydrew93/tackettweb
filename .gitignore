@@ -6,3 +6,8 @@ node_modules/
 .env.production.local
 .DS_Store
 *.log
+
+# Deployment tracking
+.deploy-log.json
+.deployments.json
+.deployment-metrics.json
