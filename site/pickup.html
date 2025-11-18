@@ -1,38 +1,278 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Request Pickup — Tackett Brothers Hauling</title>
-  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <style>
+    .autocomplete-list {
+      position: absolute;
+      border: 1px solid #ccc;
+      border-top: none;
+      list-style: none;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      width: 100%;
+      background: white;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .autocomplete-list.active {
+      display: block;
+    }
+    .autocomplete-list li {
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+    .autocomplete-list li:hover {
+      background-color: #f5f5f5;
+    }
+    .autocomplete-list li:last-child {
+      border-bottom: none;
+    }
+    .location-input-wrapper {
+      position: relative;
+    }
+    .location-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .location-input:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+  </style>
 </head>
 <body>
-  <header class="header"><h1>Request a Pickup</h1></header>
-  <section class="hero">
-    <form id="pickupForm">
-      <label>Service Type:</label>
-      <select id="serviceType"><option value="">-- Select --</option><option value="scrap">Scrap</option><option value="pallets">Pallets</option></select>
-      <label>Location:</label><input type="text" id="location">
-      <button type="button" id="locateBtn">Use My Location</button>
-      <button type="submit">Submit</button>
-    </form>
-    <div id="confirmation" style="display:none;">✔ Request Sent</div>
+  <header class="header">
+    <div class="header-top">
+      <a href="index.html" class="logo-link">
+        <img src="assets/img/logo.png" alt="Tackett Brothers Hauling Logo" class="logo">
+      </a>
+    </div>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <h1>Request a Pickup</h1>
+  </header>
+
+  <section class="form-section">
+    <div class="form-container">
+      <h2>Quick Pickup Request</h2>
+      <p class="form-intro">Fill out the form below and we'll confirm your pickup.</p>
+      
+      <form id="pickupForm" class="form">
+        <div class="form-group">
+          <label for="serviceType"><strong>1. What do you need picked up? *</strong></label>
+          <select id="serviceType" name="serviceType" required>
+            <option value="">-- Select Service --</option>
+            <option value="pallets">📦 Pallets</option>
+            <option value="scrap">⚙️ Scrap Metal / Computer Parts</option>
+          </select>
+          <small>Select the main item you need removed</small>
+        </div>
+
+        <!-- Pallet options -->
+        <div id="palletOptions" style="display:none;" class="form-group">
+          <label for="palletSize">What size pallets?</label>
+          <select id="palletSize" name="palletSize">
+            <option value="">-- Select Pallet Size --</option>
+            <option value="48x40">48x40 (Standard)</option>
+            <option value="48x48">48x48</option>
+            <option value="9-block">9 Block</option>
+            <option value="misc">Mixed Sizes</option>
+          </select>
+          
+          <label for="palletQty">How many pallets?</label>
+          <input type="number" id="palletQty" name="palletQty" min="1" placeholder="Enter quantity" aria-label="Number of pallets">
+        </div>
+
+        <!-- Scrap options -->
+        <div id="scrapOptions" style="display:none;" class="form-group">
+          <label for="scrapType">What type of scrap?</label>
+          <input type="text" id="scrapType" name="scrapType" placeholder="e.g. Steel, Aluminum, Computer parts, Mixed" aria-label="Type of scrap material">
+        </div>
+
+        <div class="form-group">
+          <label for="location"><strong>2. Where is it located? *</strong></label>
+          <div class="location-input-wrapper">
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              placeholder="Start typing your address..." 
+              required
+              autocomplete="off"
+              aria-label="Pickup location">
+            <ul id="locationSuggestions" class="autocomplete-list" role="listbox"></ul>
+          </div>
+          <small>Click a suggestion or type your full address</small>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupTime">3. When do you prefer pickup?</label>
+          <input type="datetime-local" id="pickupTime" name="pickupTime" aria-label="Preferred pickup time">
+          <small>Leave blank for us to contact you about timing</small>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Any special instructions?</label>
+          <textarea id="notes" name="notes" placeholder="e.g. Pallets are behind the building, or items are heavy" aria-label="Special instructions"></textarea>
+          <small>Help us prepare for the pickup</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Submit Pickup Request</button>
+      </form>
+
+      <div id="confirmation" class="confirmation-message" style="display:none;">
+        <div class="confirmation-content">
+          <div class="checkmark">✔</div>
+          <h3>Pickup Request Submitted!</h3>
+          <p>Thank you! We've received your request and will confirm your pickup details shortly.</p>
+          <p style="margin-top: 15px; color: #666; font-size: 14px;">You can expect to hear from us within the next 2 hours during business hours.</p>
+        </div>
+      </div>
+    </div>
   </section>
-<script>
-document.getElementById("locateBtn").addEventListener("click",()=>{
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(async pos=>{
-      const url="https://nominatim.openstreetmap.org/reverse?format=json&lat="+pos.coords.latitude+"&lon="+pos.coords.longitude;
-      const res=await fetch(url);const data=await res.json();
-      document.getElementById("location").value=data.display_name||pos.coords.latitude+","+pos.coords.longitude;
+
+  <footer>
+    <p>&copy; 2025 Tackett Brothers Hauling. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Free location autocomplete using OpenStreetMap Nominatim API
+    let debounceTimer;
+    const locationInput = document.getElementById("location");
+    const suggestionsList = document.getElementById("locationSuggestions");
+
+    // Toggle service-specific fields
+    document.getElementById("serviceType").addEventListener("change", function() {
+      const isPallets = this.value === "pallets";
+      const isScrap = this.value === "scrap";
+      document.getElementById("palletOptions").style.display = isPallets ? "block" : "none";
+      document.getElementById("scrapOptions").style.display = isScrap ? "block" : "none";
     });
-  }
-});
-document.getElementById("pickupForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const payload={serviceType:document.getElementById("serviceType").value,location:document.getElementById("location").value};
-  const res=await fetch("/.netlify/functions/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-  if(res.ok){document.getElementById("confirmation").style.display="block";}
-});
-</script>
+
+    // Free location autocomplete with OpenStreetMap Nominatim
+    locationInput.addEventListener("input", function() {
+      clearTimeout(debounceTimer);
+      const value = this.value.trim();
+      suggestionsList.innerHTML = "";
+      
+      if (value.length < 3) {
+        suggestionsList.classList.remove("active");
+        return;
+      }
+
+      // Debounce API calls (wait 400ms after user stops typing)
+      debounceTimer = setTimeout(() => {
+        // Use Nominatim API (free, no key required)
+        // Bias search to Columbus, Ohio area
+        const searchUrl = `https://nominatim.openstreetmap.org/search?` +
+          `q=${encodeURIComponent(value)}&` +
+          `viewbox=-83.5,39.5,-82.5,40.3&` +  // Columbus area bounding box
+          `bounded=1&` +
+          `format=json&` +
+          `addressdetails=1&` +
+          `limit=8&` +
+          `countrycodes=us`;
+
+        fetch(searchUrl, {
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            data.forEach(result => {
+              const li = document.createElement("li");
+              const mainText = result.name || result.address.road || result.address.city;
+              const secondaryText = [
+                result.address.city,
+                result.address.state,
+                result.address.postcode
+              ].filter(x => x).join(", ");
+
+              li.innerHTML = `
+                <strong>${mainText}</strong><br>
+                <small style="color:#666;">${secondaryText}</small>
+              `;
+              
+              li.addEventListener("click", function() {
+                // Use full address display name
+                locationInput.value = result.display_name.split(',').slice(0, 3).join(',').trim();
+                suggestionsList.classList.remove("active");
+              });
+              suggestionsList.appendChild(li);
+            });
+            suggestionsList.classList.add("active");
+          } else {
+            const li = document.createElement("li");
+            li.textContent = "No locations found. Try a different address.";
+            li.style.color = "#999";
+            suggestionsList.appendChild(li);
+            suggestionsList.classList.add("active");
+          }
+        })
+        .catch(err => {
+          console.error("Nominatim API error:", err);
+          const li = document.createElement("li");
+          li.textContent = "Error loading suggestions. Try typing manually.";
+          li.style.color = "#d9534f";
+          suggestionsList.appendChild(li);
+          suggestionsList.classList.add("active");
+        });
+      }, 400);
+    });
+
+    // Close suggestions when clicking outside
+    document.addEventListener("click", function(e) {
+      if (e.target !== locationInput) {
+        suggestionsList.classList.remove("active");
+      }
+    });
+
+    // Form submission
+    document.getElementById("pickupForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch("/.netlify/functions/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          document.getElementById("confirmation").style.display = "block";
+          form.reset();
+          suggestionsList.classList.remove("active");
+          setTimeout(() => {
+            document.getElementById("confirmation").style.display = "none";
+          }, 5000);
+        } else {
+          alert("Submission failed: " + res.status);
+        }
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  </script>
+  <script src="assets/js/nav.js"></script>
 </body>
 </html>

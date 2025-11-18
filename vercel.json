@@ -1,5 +1,16 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "echo 'Static site with serverless functions'",
   "outputDirectory": "site",
-  "public": "site"
+  "functions": {
+    "functions/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/submit",
+      "dest": "/functions/submit.js"
+    }
+  ]
 }
