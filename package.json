@@ -17,7 +17,11 @@
     "build": "echo 'Static site with serverless functions - no build required'",
     "start": "vercel dev",
     "dev": "vercel dev",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "auto-deploy": "node auto-deploy.js start",
+    "health": "node auto-deploy.js health",
+    "metrics": "node auto-deploy.js metrics",
+    "deploy-config": "node auto-deploy.js config"
   },
   "repository": {
     "type": "git",
