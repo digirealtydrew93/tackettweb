@@ -53,8 +53,7 @@ a:hover {
   color: var(--white);
   padding: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 100;
 }
 
@@ -117,6 +116,9 @@ a:hover {
   padding: 0;
   margin: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .navbar a {
@@ -1150,5 +1152,50 @@ footer a:hover {
 
   .btn-primary {
     min-width: auto;
+  }
+}
+
+/* ===== IMAGE OPTIMIZATION ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+img[loading="lazy"] {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Optimize logo images */
+.logo, .logo-hero {
+  display: block;
+}
+
+/* Service area map responsive */
+.service-map iframe {
+  max-width: 100%;
+}
+
+/* Optimize touch targets for mobile */
+button, .btn, a[class*="btn"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (max-width: 480px) {
+  button, .btn, a[class*="btn"] {
+    min-height: 48px;
+    width: 100%;
   }
 }
