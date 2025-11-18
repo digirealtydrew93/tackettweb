@@ -1,0 +1,26 @@
+{
+  "activeIndex": 0,
+  "autoSwitchEnabled": true,
+  "healthCheckInterval": 30000,
+  "failureThreshold": 3,
+  "deployments": [
+    {
+      "name": "Primary (Production)",
+      "url": "https://tackettweb-9s7vanrs7-tackett-bros-projects.vercel.app",
+      "status": "active",
+      "failureCount": 1
+    },
+    {
+      "name": "Secondary (Staging)",
+      "url": "https://tackettweb-k1c9tgj94-tackett-bros-projects.vercel.app",
+      "status": "standby",
+      "failureCount": 1
+    },
+    {
+      "name": "Tertiary (Development)",
+      "url": "https://tackettweb-7s1rlz1mw-tackett-bros-projects.vercel.app",
+      "status": "standby",
+      "failureCount": 1
+    }
+  ]
+}

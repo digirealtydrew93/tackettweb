@@ -1,0 +1,26 @@
+{
+  "startTime": "2025-11-18T07:21:38.976Z",
+  "totalRequests": 1,
+  "successfulRequests": 0,
+  "failedRequests": 3,
+  "switches": [],
+  "uptime": 0,
+  "lastHealthCheck": "2025-11-18T07:21:39.600Z",
+  "deploymentStats": {
+    "Primary (Production)": {
+      "checks": 1,
+      "successes": 0,
+      "avgResponseTime": 169
+    },
+    "Secondary (Staging)": {
+      "checks": 1,
+      "successes": 0,
+      "avgResponseTime": 108
+    },
+    "Tertiary (Development)": {
+      "checks": 1,
+      "successes": 0,
+      "avgResponseTime": 338
+    }
+  }
+}
