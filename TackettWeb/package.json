@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "multiparty": "^4.2.3",
-    "aws-sdk": "^2.1600.0"
+    "aws-sdk": "^2.1600.0",
+    "@aws-sdk/client-sns": "^3.400.0"
   },
   "engines": {
     "node": "22.x"
