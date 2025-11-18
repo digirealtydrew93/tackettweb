@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tackett Brothers Hauling – Pickup Request</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 2em;
+    }
+    h1 {
+      color: #2a5d2a;
+      border-bottom: 2px solid #2a5d2a;
+      padding-bottom: 0.5em;
+    }
+    form {
+      background: #fff;
+      padding: 1.5em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-width: 500px;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+    select, input, textarea, button {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.3em;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    select:focus, input:focus, textarea:focus {
+      border-color: #2a5d2a;
+      outline: none;
+      box-shadow: 0 0 4px #2a5d2a;
+    }
+    button {
+      background-color: #2a5d2a;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1.5em;
+    }
+    button:hover {
+      background-color: #1e441e;
+    }
+    #confirmation {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pickup Request Form</h1>
+
+  <form id="pickupForm">
+    <label for="serviceType">Service Type:</label>
+    <select name="serviceType" id="serviceType" required>
+      <option value="pallets">Pallets</option>
+      <option value="scrap">Scrap</option>
+    </select>
+
+    <div id="palletFields">
+      <label for="palletSize">Pallet Size:</label>
+      <select name="palletSize" id="palletSize" required>
+        <option value="48x40">48x40</option>
+        <option value="48x48">48x48</option>
+        <option value="36x36">36x36</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <!-- Hidden text box for custom size -->
+      <div id="customSizeField" style="display:none;">
+        <label for="customSize">Enter Custom Size:</label>
+        <input type="text" name="customSize" id="customSize" placeholder="e.g. 40x40">
+      </div>
+
+      <label for="palletQty">Quantity:</label>
+      <input type="number" name="palletQty" id="palletQty" min="1" required>
+    </div>
+
+    <div id="scrapFields" style="display:none;">
+      <label for="scrapType">Scrap Type:</label>
+      <input type="text" name="scrapType" id="scrapType" placeholder="e.g. Steel">
+    </div>
+
+    <label for="location">Location:</label>
+    <input type="text" name="location" id="location" required>
+
+    <label for="pickupTime">Preferred Pickup Time:</label>
+    <input type="datetime-local" name="pickupTime" id="pickupTime">
+
+    <label for="notes">Notes:</label>
+    <textarea name="notes" id="notes"></textarea>
+
+    <button type="submit">Submit Request</button>
+  </form>
+
+ <div id="confirmation" style="display:none; color:green; margin-top:1em;">
+  ✔ Tackett Brothers Hauling has received your request!
+</div>
+
+
+  <script>
+    // Toggle pallet vs scrap fields
+    document.getElementById("serviceType").addEventListener("change", function() {
+      document.getElementById("palletFields").style.display = this.value === "pallets" ? "block" : "none";
+      document.getElementById("scrapFields").style.display = this.value === "scrap" ? "block" : "none";
+    });
+
+    // Show custom size field if "Other" is selected
+    document.getElementById("palletSize").addEventListener("change", function() {
+      document.getElementById("customSizeField").style.display = this.value === "Other" ? "block" : "none";
+    });
+
+    // Handle form submission
+    document.getElementById("pickupForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // If "Other" was selected, override palletSize with customSize
+      if (data.palletSize === "Other" && data.customSize) {
+        data.palletSize = data.customSize;
+      }
+
+      try {
+        const res = await fetch("/.netlify/functions/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          document.getElementById("confirmation").style.display = "block";
+          form.reset();
+          document.getElementById("customSizeField").style.display = "none";
+        } else {
+          alert("Submission failed: " + res.status);
+        }
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
+
