@@ -1,0 +1,17 @@
+remote_theme: pages-themes/slate@v0.2.0
+plugins:
+- jekyll-remote-theme
+
+title: Tackett Brothers Hauling
+description: Pallet and scrap removal pickup services in Columbus, Ohio
+
+# GitHub Pages settings
+github:
+  is_project_page: false
+
+# Build settings
+markdown: kramdown
+permalink: /:basename/
+
+# Collections
+collections_dir: site
