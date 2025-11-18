@@ -26,7 +26,11 @@
     "deploy:status": "node smart-deploy.js status",
     "deploy:mark": "node smart-deploy.js update",
     "deploy:schedule": "node smart-deploy.js schedule",
-    "deploy:reset": "node smart-deploy.js reset"
+    "deploy:reset": "node smart-deploy.js reset",
+    "sms:log": "node sms-tracker.js log",
+    "sms:status": "node sms-tracker.js status",
+    "sms:config": "node sms-tracker.js config",
+    "sms:reset": "node sms-tracker.js reset"
   },
   "repository": {
     "type": "git",
