@@ -13,7 +13,11 @@
   "description": "Includes landing page, pickup form, Twilio SMS function, Netlify config. Deploy: push to GitHub, connect to Netlify, set env vars, run netlify dev.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo 'Static site with serverless functions - no build required'",
+    "start": "vercel dev",
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
   },
   "repository": {
     "type": "git",
