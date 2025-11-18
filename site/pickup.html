@@ -253,22 +253,37 @@
       const data = Object.fromEntries(new FormData(form).entries());
 
       try {
-        const res = await fetch("/functions/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
+        // Try Netlify first (unlimited deployments), fallback to local
+        let endpoints = [
+          'https://tackett-netlify-1.netlify.app/api/submit',
+          '/functions/submit'
+        ];
+        
+        let lastError;
+        for (const endpoint of endpoints) {
+          try {
+            const res = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data)
+            });
 
-        if (res.ok) {
-          document.getElementById("confirmation").style.display = "block";
-          form.reset();
-          suggestionsList.classList.remove("active");
-          setTimeout(() => {
-            document.getElementById("confirmation").style.display = "none";
-          }, 5000);
-        } else {
-          alert("Submission failed: " + res.status);
+            if (res.ok) {
+              document.getElementById("confirmation").style.display = "block";
+              form.reset();
+              suggestionsList.classList.remove("active");
+              setTimeout(() => {
+                document.getElementById("confirmation").style.display = "none";
+              }, 5000);
+              return;
+            }
+          } catch (err) {
+            lastError = err;
+            continue;
+          }
         }
+        
+        alert("Submission failed. Please try again.");
       } catch (err) {
         console.error("Error submitting form:", err);
         alert("An error occurred. Please try again.");
