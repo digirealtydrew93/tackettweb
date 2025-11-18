@@ -798,6 +798,58 @@ footer a:hover {
   transition: all 0.3s ease;
 }
 
+/* ===== LOCATION SUGGESTIONS & GEO UI ===== */
+.location-suggestions {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  background: var(--white);
+  max-height: 220px;
+  overflow: auto;
+  box-shadow: 0 6px 18px rgba(31, 41, 55, 0.06);
+  display: none;
+}
+
+.location-suggestions.active {
+  display: block;
+}
+
+.location-suggestions li {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+}
+
+.location-suggestions li:last-child { border-bottom: none; }
+
+.location-suggestions li:hover {
+  background: var(--gray-50);
+}
+
+/* Small inline spinner for buttons */
+.btn.loading {
+  position: relative;
+}
+
+.btn.loading::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  border-top-color: var(--white);
+  margin-left: 8px;
+  vertical-align: middle;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .step:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(37, 99, 235, 0.15);

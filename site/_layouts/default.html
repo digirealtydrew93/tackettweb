@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} — {% endif %}Tackett Brothers Hauling</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta name="keywords" content="pallet removal Columbus, scrap removal, hauling services Ohio">
+  <link rel="canonical" href="https://tackettbroshauling.pro/">
+  <link rel="stylesheet" href="/assets/css/site.css?v=4">
+  {% if page.extra_head %}{{ page.extra_head }}{% endif %}
+</head>
+<body>
+  <header class="header">
+    <div class="header-top">
+      <a href="/index.html" class="logo-link">
+        <img src="/assets/img/logo.png" alt="Tackett Brothers Hauling Logo" class="logo">
+      </a>
+    </div>
+    <nav class="navbar">
+      <a href="/index.html" {% if page.url == "/index.html" %}class="active"{% endif %}>Home</a>
+      <a href="/services.html">Services</a>
+      <a href="/about.html">About</a>
+      <a href="/testimonials.html">Testimonials</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    {% if page.header_title %}<h1>{{ page.header_title }}</h1>{% endif %}
+  </header>
+  {{ content }}
+  <footer>
+    <p>&copy; 2025 Tackett Brothers Hauling. All rights reserved. | <a href="/contact.html">Contact</a> | <a href="/about.html">About Us</a></p>
+  </footer>
+  <script src="/assets/js/nav.js"></script>
+</body>
+</html>

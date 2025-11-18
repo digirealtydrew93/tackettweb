@@ -5,8 +5,7 @@
 **Site:** https://www.tackettbroshauling.pro/  
 **Pickup Form:** https://www.tackettbroshauling.pro/pickup.html  
 **SMS Endpoint:** `/api/router` (load-balanced)  
-**SMS Target:** +12202240393  
-**Active Deployment:** [1] Secondary (Vercel)  
+**Active Deployment:** Index 1 — Secondary (Vercel) (Active)  
 **SMS Count:** 50/300 total capacity  
 
 ## 🧪 Testing the SMS System

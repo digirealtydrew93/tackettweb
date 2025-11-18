@@ -1,0 +1,45 @@
+{
+  "deployments": [
+    {
+      "index": 0,
+      "name": "Primary (Vercel)",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    },
+    {
+      "index": 1,
+      "name": "Secondary (Vercel)",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    },
+    {
+      "index": 2,
+      "name": "Tertiary (Vercel)",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    },
+    {
+      "index": 3,
+      "name": "Netlify",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    },
+    {
+      "index": 4,
+      "name": "Netlify #2",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    },
+    {
+      "index": 5,
+      "name": "GitHub Pages",
+      "smsCount": 0,
+      "lastReset": "2025-11-18T07:46:56.831Z"
+    }
+  ],
+  "activeIndex": 0,
+  "smsLimit": 50,
+  "totalSmsSent": 0,
+  "switches": [],
+  "lastUpdated": "2025-11-18T07:46:56.832Z"
+}

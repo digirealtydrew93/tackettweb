@@ -1,30 +1,11 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Request Pickup — Tackett Brothers Hauling</title>
-  <meta name="description" content="Request a pallet or scrap removal pickup in Columbus, Ohio. Fast, same-day service available. Submit your request now and we'll confirm immediately.">
-  <meta name="keywords" content="request pallet pickup, scrap removal Columbus, same-day hauling">
-  <link rel="stylesheet" href="assets/css/site.css?v=4">
-</head>
-<body>
-  <header class="header">
-    <div class="header-top">
-      <a href="index.html" class="logo-link">
-        <img src="assets/img/logo.png" alt="Tackett Brothers Hauling Logo" class="logo">
-      </a>
-    </div>
-    <nav class="navbar">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="testimonials.html">Testimonials</a>
-      <a href="faq.html">FAQ</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <h1>Request a Pickup</h1>
-  </header>
+﻿---
+layout: default
+title: Request Pickup
+description: Request a pallet or scrap removal pickup in Columbus, Ohio. Fast, same-day service available. Submit your request now and we'll confirm immediately.
+header_title: Request a Pickup
+---
+
+<!-- ...existing code... -->
 
   <section class="form-section">
     <div class="form-container">
@@ -78,7 +59,13 @@
 
         <div class="form-group">
           <label for="location"><strong>Location *</strong></label>
-          <input type="text" id="location" name="location" required placeholder="123 Main St, Columbus, OH">
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="location" name="location" required placeholder="123 Main St, Columbus, OH" style="flex:1;">
+            <button type="button" id="useLocationBtn" class="btn" style="white-space:nowrap;">Use my location</button>
+          </div>
+          <ul id="locationSuggestions" class="location-suggestions" style="display:none; margin-top:6px; padding-left:12px;"></ul>
+          <input type="hidden" id="latitude" name="latitude">
+          <input type="hidden" id="longitude" name="longitude">
         </div>
 
         <div class="form-group">
@@ -100,15 +87,14 @@
     </div>
   </section>
 
-  <footer>
-    <p>&copy; 2025 Tackett Brothers Hauling. All rights reserved.</p>
-  </footer>
-
-  <script>
+<!-- ...existing code... -->
     // Free location autocomplete using OpenStreetMap Nominatim API
     let debounceTimer;
     const locationInput = document.getElementById("location");
     const suggestionsList = document.getElementById("locationSuggestions");
+    const useLocationBtn = document.getElementById('useLocationBtn');
+    const latitudeInput = document.getElementById('latitude');
+    const longitudeInput = document.getElementById('longitude');
 
     // Toggle service-specific fields
     document.getElementById("serviceType").addEventListener("change", function() {
@@ -187,6 +173,51 @@
           suggestionsList.classList.add("active");
         });
       }, 400);
+    });
+
+    // Use browser Geolocation to populate location field
+    useLocationBtn.addEventListener('click', function () {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser.');
+        return;
+      }
+
+      useLocationBtn.textContent = 'Locating...';
+      useLocationBtn.disabled = true;
+      useLocationBtn.classList.add('loading');
+
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        latitudeInput.value = lat;
+        longitudeInput.value = lon;
+
+        try {
+          const revUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&addressdetails=1`;
+          const resp = await fetch(revUrl, { headers: { 'Accept': 'application/json' } });
+          const json = await resp.json();
+          if (json && json.display_name) {
+            // Keep a short readable address (first 3 parts)
+            const parts = json.display_name.split(',').map(p => p.trim());
+            locationInput.value = parts.slice(0, 3).join(', ');
+          } else {
+            locationInput.value = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+          }
+        } catch (err) {
+          console.error('Reverse geocode failed:', err);
+          locationInput.value = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+        } finally {
+          useLocationBtn.textContent = 'Use my location';
+          useLocationBtn.disabled = false;
+          useLocationBtn.classList.remove('loading');
+        }
+      }, (err) => {
+        console.error('Geolocation error:', err);
+        alert('Unable to retrieve your location. Please allow location access or enter your address manually.');
+        useLocationBtn.textContent = 'Use my location';
+        useLocationBtn.disabled = false;
+        useLocationBtn.classList.remove('loading');
+      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
     });
 
     // Close suggestions when clicking outside
