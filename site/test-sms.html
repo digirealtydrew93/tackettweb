@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test SMS Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .success {
+      color: green;
+      background: #d4edda;
+      padding: 15px;
+      border-radius: 4px;
+      display: none;
+      margin: 15px 0;
+    }
+    .error {
+      color: red;
+      background: #f8d7da;
+      padding: 15px;
+      border-radius: 4px;
+      display: none;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quick SMS Test</h1>
+  
+  <form id="testForm">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required value="Test User">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone *</label>
+      <input type="tel" id="phone" name="phone" required value="614-555-0123">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="test@example.com">
+    </div>
+
+    <div class="form-group">
+      <label for="serviceType">Service Type *</label>
+      <select id="serviceType" name="serviceType" required>
+        <option value="pallets">Pallets</option>
+        <option value="scrap">Scrap Metal</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location *</label>
+      <input type="text" id="location" name="location" required value="123 Test St, Columbus, OH">
+    </div>
+
+    <div class="form-group">
+      <label for="details">Details</label>
+      <textarea id="details" name="details">Test SMS delivery</textarea>
+    </div>
+
+    <button type="submit">Send SMS Test</button>
+  </form>
+
+  <div id="success" class="success"></div>
+  <div id="error" class="error"></div>
+
+  <script>
+    document.getElementById('testForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      document.getElementById('success').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      
+      try {
+        console.log('Sending:', data);
+        
+        // Try direct Vercel endpoint
+        const response = await fetch('/functions/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        console.log('Response:', response.status);
+        
+        if (response.ok) {
+          document.getElementById('success').style.display = 'block';
+          document.getElementById('success').innerHTML = '✅ SMS sent successfully to +12202240393!';
+          e.target.reset();
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').innerHTML = `❌ Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
