@@ -1,4 +1,16 @@
 {
-  "buildCommand": "echo 'Static site'",
-  "outputDirectory": "site"
+  "buildCommand": "echo 'Static site with serverless functions'",
+  "outputDirectory": "site",
+  "functions": {
+    "functions/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/submit",
+      "dest": "/functions/submit.js"
+    }
+  ]
 }
