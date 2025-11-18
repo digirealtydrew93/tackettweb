@@ -118,3 +118,5 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: JSON.stringify({ error: "Server error", details: err.toString() }) };
   }
 };
+
+module.exports = exports.handler;
