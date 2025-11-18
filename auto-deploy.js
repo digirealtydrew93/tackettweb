@@ -89,13 +89,13 @@ async function healthCheck(deployment) {
     }, 5000);
 
     const startTime = Date.now();
-    const url = new URL(`${deployment.url}/functions/submit`);
+    const url = new URL(`${deployment.url}/index.html`);
     const protocol = url.protocol === 'https:' ? https : http;
 
     const req = protocol.request(url, { method: 'HEAD' }, (res) => {
       clearTimeout(timeout);
       const responseTime = Date.now() - startTime;
-      const healthy = res.statusCode === 200 || res.statusCode === 405; // 405 is OK for HEAD request
+      const healthy = res.statusCode === 200 || res.statusCode === 304; // 304 is OK for static files
       resolve({ healthy, responseTime, statusCode: res.statusCode });
     });
 
