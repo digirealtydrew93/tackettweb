@@ -1,19 +1,19 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Tackettweb Functions",
-      "program": "${workspaceFolder}/api/index.js",
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "node",
-      "env": {
-        "AWS_REGION": "us-east-1",
-        "TWILIO_ACCOUNT_SID": "your_sid_here",
-        "TWILIO_AUTH_TOKEN": "your_token_here",
-        "OPENAI_API_KEY": "your_key_here"
-      }
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Tackettweb Functions",
+            "program": "${workspaceFolder}/api/index.js",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "node",
+            "env": {
+                "AWS_REGION": "us-east-1",
+                "TWILIO_ACCOUNT_SID": "your_sid_here",
+                "TWILIO_AUTH_TOKEN": "your_token_here",
+                "OPENAI_API_KEY": "your_key_here"
+            }
+        }
+    ]
 }
