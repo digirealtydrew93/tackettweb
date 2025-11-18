@@ -1,0 +1,17 @@
+{
+    "editor.formatOnSave": true,
+    "files.exclude": {
+        "**/.git": true,
+        "node_modules": true,
+        ".vercel": true,
+        ".netlify": true,
+        "dist": true
+    },
+    "eslint.enable": true,
+    "eslint.validate": [
+        "javascript",
+        "html",
+        "css"
+    ],
+    "javascript.suggestionActions.enabled": true
+}
