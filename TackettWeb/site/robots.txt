@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /.netlify/
+
+Sitemap: https://tackettbroshauling.pro/sitemap.xml
+
+# Crawl delay (in seconds)
+Crawl-delay: 1

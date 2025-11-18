@@ -58,6 +58,31 @@ a:hover {
   z-index: 100;
 }
 
+.header-top {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+  max-width: 200px;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
 .header h1 {
   margin: 0;
   padding: 24px 0 12px;
