@@ -1,4 +1,8 @@
 # Local Netlify folder
 .netlify
-
 .vercel
+node_modules/
+.env.local
+.env.production.local
+.DS_Store
+*.log
