@@ -1,0 +1,28 @@
+{
+  "deployments": [
+    {
+      "index": 0,
+      "name": "Primary (Production)",
+      "url": "https://tackettweb-9s7vanrs7-tackett-bros-projects.vercel.app",
+      "lastDeployed": "2025-11-18T07:29:26.443Z",
+      "deployCount": 1
+    },
+    {
+      "index": 1,
+      "name": "Secondary (Staging)",
+      "url": "https://tackettweb-k1c9tgj94-tackett-bros-projects.vercel.app",
+      "lastDeployed": "2025-11-18T07:29:33.693Z",
+      "deployCount": 1
+    },
+    {
+      "index": 2,
+      "name": "Tertiary (Development)",
+      "url": "https://tackettweb-7s1rlz1mw-tackett-bros-projects.vercel.app",
+      "lastDeployed": "2025-11-18T07:29:34.319Z",
+      "deployCount": 1
+    }
+  ],
+  "activeIndex": 2,
+  "totalDeployments": 3,
+  "lastUpdated": "2025-11-18T07:29:34.319Z"
+}
