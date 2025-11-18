@@ -1,4 +1,10 @@
-﻿const twilio = require("twilio");
+﻿const AWS = require('aws-sdk');
+
+const sns = new AWS.SNS({
+  accessKeyId: process.env.TACKETT_AWS_KEY_ID,
+  secretAccessKey: process.env.TACKETT_AWS_SECRET_KEY,
+  region: process.env.TACKETT_AWS_REGION || 'us-east-2'
+});
 
 function buildPickupMessage(data) {
   let body = `Tackett Brothers Hauling — New Pickup Request\n`;
@@ -23,18 +29,16 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body);
     console.log("Form data received:", data);
 
-    const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH);
     const messageBody = buildPickupMessage(data);
 
-    await client.messages.create({
-      body: messageBody,
-      from: process.env.TWILIO_NUMBER,
-      to: process.env.BIDDER_NUMBER
-    });
+    await sns.publish({
+      Message: messageBody,
+      PhoneNumber: process.env.TACKETT_PHONE_NUMBER
+    }).promise();
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (err) {
-    console.error("Twilio error:", err);
+    console.error("SMS error:", err);
     return { statusCode: 500, body: "Server error" };
   }
 };
